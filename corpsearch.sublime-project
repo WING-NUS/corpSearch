@@ -1,12 +1,30 @@
 {
+	"build_systems":
+	[
+		{
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "$VIRTUAL_ENV\\Scripts\\python.exe -u \"$file\""
+		},
+		{
+			"name": "LESS CSS",
+			"selector": "source.less",
+			"shell_cmd": "lessc \"$file\" > \"${file/\\.less/\\.css/}\""
+		}
+	],
+	"folder_exclude_patterns":
+	[
+		"env"
+	],
 	"folders":
 	[
 		{
 			"path": "."
 		}
 	],
-	"folder_exclude_patterns":
-	[
-		"env"
-	]
+	"settings":
+	{
+		"python_interpreter": "$VIRTUAL_ENV\\Scripts\\python.exe"
+	}
 }

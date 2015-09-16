@@ -74,3 +74,12 @@ target/
 sftp-config.json
 
 
+### Vagrant ###
+.vagrant/
+
+### Project-specific
+cache
+vendor/
+results/
+
+*.csv
