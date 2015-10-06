@@ -25,10 +25,13 @@ import config
 
 
 class MaxValue(object):
+    """Helper class to find a maximum value out of a series of
+    numbers."""
     def __init__(self):
         self.value = None
 
     def update(self, value):
+        """Updates the internally-stored value if the given value is larger."""
         if self.value < value:
             self.value = value
 
