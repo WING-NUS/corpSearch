@@ -18,6 +18,8 @@ class TwitterSearch(object):
 
     @staticmethod
     def query(query):
+        """Given a query, returns Twitter profiles
+        corresponding to that query."""
         profiles = search_twitter(query)
 
         processed = []
@@ -31,6 +33,7 @@ class TwitterSearch(object):
 
     @staticmethod
     def posts_for(profile_id):
+        """Given a Twitter profile ID, returns posts by that profile."""
         posts = posts_for(profile_id)
         return [TwitterPost(x) for x in posts]
 
@@ -39,6 +42,8 @@ class TwitterSearch(object):
 def search_twitter(query,
                    access_token=access_token,
                    access_token_secret=access_token_secret):
+    """Given a query, access token, and access token secret,
+    searches Twitter for pages matching that query. Uses an expiring cache."""
     api = get_api(access_token, access_token_secret)
 
     return [x._json for x in api.search_users(query)]
@@ -48,7 +53,8 @@ def search_twitter(query,
 def posts_for(profile_id,
               access_token=access_token,
               access_token_secret=access_token_secret):
-    """Gets the latest 20 posts for the user with the given ID."""
+    """Gets the latest 20 posts for the user with the given ID.
+    Uses an expiring cache."""
     api = get_api()
 
     try:
@@ -59,7 +65,9 @@ def posts_for(profile_id,
 
 
 def get_api(access_token=access_token,
-            acces_token_secret=access_token_secret):
+            access_token_secret=access_token_secret):
+    """Initializes a tweepy-based Twitter API object for a given
+    access token and secret."""
     auth = tweepy.OAuthHandler(consumer_key=key,
                                consumer_secret=secret)
     auth.set_access_token(access_token, access_token_secret)
