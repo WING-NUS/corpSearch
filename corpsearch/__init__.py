@@ -78,7 +78,10 @@ app = Application([
     (r'/company/(.*)/facebook', FacebookResultHandler)
 ])
 
+
 def create_results_dict(results):
+    """Helper method to convert a set of results into a front-end-friendly
+    form."""
     official = [{
             'profile': result['profile'].to_dict(),
             'probability': result['probability'],
