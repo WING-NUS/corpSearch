@@ -6,7 +6,8 @@ import config
 
 
 class SingleNetworkSearcher(object):
-    """Handles searching for a company's profiles on an individual social network."""
+    """Handles searching for and classifying a company's profiles
+    on an individual social network."""
 
     def __init__(self, classifier, searchengine, profile_converter, network):
         self.engine = searchengine
@@ -24,6 +25,7 @@ class SingleNetworkSearcher(object):
 
 
 class TwitterSearcher(object):
+    """Wraps a SingleNetworkSearcher for Twitter search and classification."""
     def __init__(self):
         self.engine = SingleNetworkSearcher(
             classifier=joblib.load('twitter_classifier.pkl'),
@@ -33,10 +35,13 @@ class TwitterSearcher(object):
         )
 
     def query(self, query):
+        """Given a company name, returns classified results for that company on
+        Twitter."""
         return self.engine.query(query)
 
 
 class FacebookSearcher(object):
+    """Wraps a SingleNetworkSearcher for Facebook search and classification."""
     def __init__(self):
         self.engine = SingleNetworkSearcher(
             classifier=joblib.load('facebook_classifier.pkl'),
@@ -46,4 +51,6 @@ class FacebookSearcher(object):
         )
 
     def query(self, query):
+        """Given a company name, returns classified results for that company on
+        Facebook."""
         return self.engine.query(query)
