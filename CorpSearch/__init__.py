@@ -9,10 +9,13 @@ facebook_searcher = FacebookSearcher()
 
 
 class DuckDuckGoDescriptionHandler(RequestHandler):
+    """RequestHandler for /company/<name>/description."""
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
 
     def get(self, name):
+        """Handles GET requests, taking in a company's name and
+        returning a description for that company from DuckDuckGo."""
         if not name:
             self.write({})
             self.finish()
@@ -31,10 +34,14 @@ class DuckDuckGoDescriptionHandler(RequestHandler):
 
 
 class TwitterResultHandler(RequestHandler):
+    """RequestHandler for /company/<name>/twitter."""
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
 
     def get(self, name):
+        """Handles GET requests, taking in a company's name and
+        returning a dictionary of classified profiles on Twitter
+        for the company."""
         if not name:
             self.write({})
             self.finish()
@@ -47,10 +54,14 @@ class TwitterResultHandler(RequestHandler):
 
 
 class FacebookResultHandler(RequestHandler):
+    """RequestHandler for /company/<name>/facebook."""
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
 
     def get(self, name):
+        """Handles GET requests, taking in a company's name and
+        returning a dictionary of classified profiles on Facebook
+        for the company."""
         if not name:
             self.write({})
             self.finish
