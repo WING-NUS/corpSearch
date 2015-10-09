@@ -27,6 +27,7 @@ words = [
 
 
 def strip_spaces_and_punctuation(text):
+    """Strips spaces and punctuation from a given string."""
     minus_punctuation = strip_punctuation(text)
     minus_punctuation_and_spaces = "".join(minus_punctuation.split())
     minus_punctuation_and_spaces = "".join(minus_punctuation.split())
@@ -35,6 +36,7 @@ def strip_spaces_and_punctuation(text):
 
 
 def strip_punctuation(text):
+    """Strips punctuation from a given string."""
     return reduce(lambda s,
                   char: s.replace(char, ''),
                   string.punctuation,
@@ -42,6 +44,8 @@ def strip_punctuation(text):
 
 
 def strip_stopwords(text):
+    """Strips common stopwords from a given string. These are words
+    which frequently appear in company names."""
     processed = strip_punctuation(text)
     for stopword in words:
         # We want to compare lower-case, but return the original casing.
@@ -61,6 +65,8 @@ def strip_stopwords(text):
 
 
 def abbreviate(text):
+    """Returns a simple abbreviation for a string, consisting of the first
+    characters of each word."""
     no_punctuation = strip_punctuation(text).split()
     first_letters = [i[0] for i in no_punctuation]
     abbreviation = "".join(first_letters).strip()
@@ -94,6 +100,8 @@ class NormalizedEditDistanceStopwords(object):
 
 
 class NormalizedEditDistanceStopwordsQueryToHandle(BaseFeature):
+    """The normalized edit distance between the query and the handle, with
+    stopwords removed from both."""
     @staticmethod
     def feature_labels():
         return [
@@ -108,6 +116,8 @@ class NormalizedEditDistanceStopwordsQueryToHandle(BaseFeature):
 
 
 class NormalizedEditDistanceStopwordsQueryToDisplayName(BaseFeature):
+    """The normalized edit distance between the query and the display name,
+    with stopwords removed from both."""
     @staticmethod
     def feature_labels():
         return [
