@@ -3,6 +3,7 @@ from distance import NormalizedEditDistance
 
 
 class NormalizedEditDistanceQueryToHandle(BaseFeature):
+    """The normalized edit distance between the query and the handle."""
     @staticmethod
     def feature_labels():
         return [
@@ -15,6 +16,7 @@ class NormalizedEditDistanceQueryToHandle(BaseFeature):
 
 
 class NormalizedEditDistanceQueryToDisplayName(BaseFeature):
+    """The normalized edit distance between the query and the display name."""
     @staticmethod
     def feature_labels():
         return [
