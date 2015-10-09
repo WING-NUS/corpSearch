@@ -132,10 +132,13 @@ class Evaluator(object):
 
     @property
     def profiles(self):
+        """Returns a list of the profiles used in evaluation."""
         self.db_profiles, clone = itertools.tee(self.db_profiles)
         return clone
 
     def evaluate(self):
+        """Evaluates the system using 10-fold cross validation, returning
+        a dictionary of results keyed by classifier type."""
         trainer = Trainer(self.profiles, self.profile_type,
                           self.converter, self.network)
         training_set = trainer.generate_training_set()
@@ -243,6 +246,9 @@ class Evaluator(object):
         return classification_results
 
     def evaluate_statistical(self):
+        """Evaluates the system using 10-fold cross validation, returning
+        a dictionary containing the number of correct results per-fold in
+        each class."""
         trainer = Trainer(self.profiles, self.profile_type,
                           self.converter, self.network)
         training_set = trainer.generate_training_set()
@@ -340,6 +346,10 @@ class Evaluator(object):
 
 
 def initialize_classifiers():
+    """Returns a list of classifiers to use in evaluation.
+    Classifiers are specified as dictionaries where 'type' is keyed to
+    their human-readable name, and 'classifier' is keyed to the actual
+    scikit-learn classifier instance."""
     # TODO: should move this into features.py too, so it's specific to a system. Maybe.
     classifiers = [
         # {'type': 'Gaussian Naive Bayes', 'classifier': GaussianNB()},
@@ -355,6 +365,8 @@ def initialize_classifiers():
 
 
 def pretty_print_summary(network_name, results):
+    """Given a network name and results set, returns a list of CSV lines
+    that form a summary spreadsheet."""
     output = [
         network_name
     ]
@@ -371,6 +383,9 @@ def pretty_print_summary(network_name, results):
 
 
 def generate_metric_outputs(scores, class_type):
+    """Given a dictionary of results (keyed by classifier name) and the
+    class name these results are for, returns a list of CSV lines and headers
+    for Macro and Micro F1, Precision, and Recall."""
     classifiers = sorted(scores.keys())
 
     output = []
@@ -424,12 +439,16 @@ def generate_metric_outputs(scores, class_type):
 
 
 def get_summary_line(scores, classifier, key):
+    """Given a score dictionary, classifier name, and result type,
+    returns a CSV line summarizing the result for that classifier."""
     result = scores[classifier][key]
     line = ','.join([classifier, str(result)])
     return line
 
 
 def calculate_f1(precision, recall):
+    """Given precision and recall, calculates F1. Returns 0 if
+    precision + recall is 0."""
     if precision + recall == 0:
         f1 = 0.0
     else:
@@ -443,6 +462,24 @@ class MetricCalculator(object):
     @staticmethod
     def count_positives(actual_handles, marked_positive_handles,
                         marked_negative_handles):
+        """Given a list of correct usernames, a set of usernames marked
+        by the system as correct, and a set of usernames marked by the system
+        as incorrect, returns a dictionary with the following keys:
+
+            `true_positive`: amount of true positives obtained by the system.
+
+            `max_true_positive`: the maximum amount of true positives the
+            system could have obtained. This is not necessarily the same
+            as the amount of correct usernames, since the system may not have
+            obtained the entire set of correct profiles when searching the
+            social network for the company.
+
+            `marked_positive`: the amount of profiles the system marked as
+            correct.
+
+            `actual_number_of_positives`: the size of the list of correct
+            usernames.
+        """
         true_positive = 0
         max_true_positive = 0
         for handle in marked_positive_handles:
@@ -570,6 +607,8 @@ class MetricCalculator(object):
 
 
 def evaluate_and_print():
+    """Evaluates the system and outputs per-network results to separate
+    CSV files."""
     printer = pretty_print_summary
 
     twitter_entries = get_twitter_entries()
@@ -612,11 +651,15 @@ def evaluate_and_print():
 
 
 def process_network_results(results):
+    """Processes the evaluation results for a particular social network,
+    returning a dictionary with F1, Precision, and Recall for each class."""
     result = SystemEvaluationResult(results)
     return result.process()
 
 
 def evaluate_to_file(converter=config.evaluate_converter, idx=0):
+    """Evaluates the performance of the system, and saves the results
+    to data files in network-specific folders."""
     name = converter.name
     basedir = os.path.dirname(__file__)
     results_directory = os.path.join(basedir, 'results')
@@ -658,6 +701,9 @@ def evaluate_to_file(converter=config.evaluate_converter, idx=0):
 
 def evaluate_statistical_significance(converter=config.evaluate_converter,
                                       idx=0):
+    """Evaluates the performance of the system in terms of number of correct
+    results, and saves the results to data files in network-specific folders.
+    Used to determine if feature sets show statistical significance."""
     name = converter.__name__
     basedir = os.path.dirname(__file__)
     results_directory = os.path.join(basedir, 'results')
