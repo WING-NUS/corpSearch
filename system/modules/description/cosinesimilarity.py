@@ -7,6 +7,7 @@ from duckduckdescription import DuckDuckDescription
 
 
 class CosineSimilarityDescriptionAndQuery(BaseFeature):
+    """Cosine similarity between the profile description and the query."""
     @staticmethod
     def feature_labels():
         return ['Cosine Similarity: Profile Description and Query']
@@ -33,6 +34,8 @@ class CosineSimilarityDescriptionAndQuery(BaseFeature):
 
 
 class CosineSimilarityDescriptionAndDDG(BaseFeature):
+    """Cosine similarity between the profile description and a description
+    retrieved from the DuckDuckGo search engine."""
     @staticmethod
     def feature_labels():
         return ['Cosine Similarity: Profile Description and DDG Description']

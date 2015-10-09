@@ -2,6 +2,8 @@ from .. import BaseFeature
 
 
 class OccurrencesOfQueryInDescCaseSensitive(BaseFeature):
+    """The amount of times the query appears in the profile's description,
+    taking case into account."""
     @staticmethod
     def feature_labels():
         return [
@@ -14,6 +16,8 @@ class OccurrencesOfQueryInDescCaseSensitive(BaseFeature):
 
 
 class OccurrencesOfQueryInDescCaseInsensitive(BaseFeature):
+    """The amount of times the query appears in the profile's description,
+    ignoring case."""
     @staticmethod
     def feature_labels():
         return [
