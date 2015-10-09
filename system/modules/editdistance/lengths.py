@@ -2,6 +2,7 @@ from .. import BaseFeature
 
 
 class LengthOfQuery(BaseFeature):
+    """The length of the query, in characters."""
     @staticmethod
     def feature_labels():
         return [
@@ -14,6 +15,7 @@ class LengthOfQuery(BaseFeature):
 
 
 class LengthOfHandle(BaseFeature):
+    """The length of the handle, in characters."""
     @staticmethod
     def feature_labels():
         return [
@@ -26,6 +28,7 @@ class LengthOfHandle(BaseFeature):
 
 
 class LengthOfDisplayName(BaseFeature):
+    """The length of the display name, in characters."""
     @staticmethod
     def feature_labels():
         return [
