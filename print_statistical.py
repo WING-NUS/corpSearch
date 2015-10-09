@@ -3,6 +3,9 @@ import os
 
 
 def print_all(results_dir):
+    """Given the path to the results directory, creates .csv files containing
+    the data needed to calculate statistical significance for feature sets
+    on each network."""
     twitter_directory = os.path.join(results_dir, 'Twitter')
     twitter_results = load_results(twitter_directory)
 
@@ -15,6 +18,8 @@ def print_all(results_dir):
 
 
 def print_network_results(network, results):
+    """Given the name of the social network and its corresponding result
+    dictionary, outputs results for that network to a .csv file."""
     header_row = ['Query'] + sorted(results.keys())
     with open(network + '-official.csv', 'w') as official_file:
         official_file.write(','.join(header_row) + '\n')
