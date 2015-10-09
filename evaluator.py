@@ -37,6 +37,7 @@ class MaxValue(object):
 
 
 class SystemEvaluationResult(object):
+    """Represents evaluation results for a particular system."""
     def __init__(self, classifier_results):
         self.official_max = defaultdict(MaxValue)
         self.affiliate_max = defaultdict(MaxValue)
@@ -47,6 +48,8 @@ class SystemEvaluationResult(object):
         self.process_classifier_results(classifier_results)
 
     def process_classifier_results(self, results):
+        """Processes the evaluation results obtained by using the
+        same system with different classifiers."""
         for classifier, fold_results in results.iteritems():
             self.process_official_results(
                 results=[x['official'] for x in fold_results],
@@ -57,6 +60,8 @@ class SystemEvaluationResult(object):
                 classifier_name=classifier)
 
     def process(self):
+        """Returns a dict with F1, Precision, and Recall results
+        for the Official and Affiliate classes."""
         return {
             'official': self.__get_returnable_dict_for_class(
                 store=self.official_metrics,
@@ -67,6 +72,8 @@ class SystemEvaluationResult(object):
         }
 
     def process_official_results(self, results, classifier_name):
+        """Processes results for the Official class under a particular
+        classifier."""
         summarized = MetricCalculator.overall_metrics(results)
 
         self.__store_classifier_metrics(self.official_metrics, summarized,
@@ -74,6 +81,8 @@ class SystemEvaluationResult(object):
         self.__update_maximums(self.official_max, summarized)
 
     def process_affiliate_results(self, results, classifier_name):
+        """Processes results for the Affiliate class under a particular
+        classifier."""
         summarized = MetricCalculator.overall_metrics(results)
 
         self.__store_classifier_metrics(self.affiliate_metrics, summarized,
@@ -81,16 +90,23 @@ class SystemEvaluationResult(object):
         self.__update_maximums(self.affiliate_max, summarized)
 
     def __store_classifier_metrics(self, store, results, classifier_name):
+        """Given a dictionary to store results in, a results dictionary,
+        and the name of the classifier these results came from,
+        stores the results."""
         store['f1'][classifier_name] = results['macro_average_f1']
         store['precision'][classifier_name] = results['macro_average_precision']
         store['recall'][classifier_name] = results['macro_average_recall']
 
     def __update_maximums(self, store, results):
+        """Updates the maximum precision, recall, and F1 for a given results
+        store."""
         store['f1'].update(results['max_f1'])
         store['precision'].update(results['max_precision'])
         store['recall'].update(results['max_recall'])
 
     def __get_returnable_dict_for_class(self, store, maximums):
+        """Returns a processed results dictionary for a given results
+        store."""
         processed = {
             'f1': store['f1'],
             'precision': store['precision'],
