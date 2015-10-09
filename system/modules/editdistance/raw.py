@@ -3,6 +3,7 @@ from distance import EditDistance
 
 
 class EditDistanceQueryToHandle(BaseFeature):
+    """The raw edit distance between the query and the handle."""
     @staticmethod
     def feature_labels():
         return [
@@ -15,6 +16,7 @@ class EditDistanceQueryToHandle(BaseFeature):
 
 
 class EditDistanceQueryToDisplayName(BaseFeature):
+    """The raw edit distance between the query and the display name."""
     @staticmethod
     def feature_labels():
         return [
