@@ -5,6 +5,12 @@ from vocab.languagemodel import BigramLanguageModel
 
 
 class DescriptionLanguageModel(BaseFeature):
+    """In the preprocessing stage, this feature generates three bigram language
+    models: one from descriptions of Official profiles, one from descriptions
+    of Affiliate profiles, and one from descriptions of Unrelated profiles.
+
+    The feature consists of the probabilities that the description of the
+    candidate profile belongs to each of these language models."""
     @staticmethod
     def feature_labels():
         return [
@@ -64,6 +70,12 @@ class DescriptionLanguageModel(BaseFeature):
 
 
 class PostContentLanguageModel(BaseFeature):
+    """In the preprocessing stage, this feature generates three bigram language
+    models: one from posts made by Official profiles, one from posts made by
+    Affiliate profiles, and one from posts made by Unrelated profiles.
+
+    The feature consists of the probabilities that the posts of the
+    candidate profile belong to each of these language models."""
     @staticmethod
     def feature_labels():
         return [
