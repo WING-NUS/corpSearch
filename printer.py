@@ -4,15 +4,6 @@ import os.path
 from collections import defaultdict
 
 
-class MaxValue(object):
-    def __init__(self):
-        self.value = None
-
-    def update(self, value):
-        if self.value < value:
-            self.value = value
-
-
 def print_all(results_dir):
     twitter_directory = os.path.join(results_dir, 'Twitter')
     twitter_results = load_results(twitter_directory)
