@@ -20,6 +20,16 @@ class Trainer(object):
         self.network = network
 
     def generate_training_set(self):
+        """Returns a training set for the profiles used to initialize this
+        Trainer. The training set is a named tuple with two properties:
+
+            `data`: A list of feature vectors, each of which corresponds to a
+            social network profile.
+
+            `labels`: A list of numerical labels.
+
+        The indexes in both `data` and `labels` are identical - i.e. vector n
+        in `data` corresponds to label n in `labels`."""
         profiles = list(self.db_profiles)
         feature_vectors = []
         labels = []
@@ -70,11 +80,15 @@ class Trainer(object):
         return training_set(data=feature_vectors, labels=labels)
 
     def train_classifier(self, classifier, training_set):
+        """Given an initialized scikit-learn classifier and a training set,
+        trains the classifier and returns it."""
         classifier.fit(training_set.data, training_set.labels)
         return classifier
 
 
 def train_twitter(classifier):
+    """Helper method to train an initialized scikit-learn classifier on
+    all Twitter profiles."""
     all_entries = get_twitter_entries()
 
     twitter_trainer = Trainer(all_entries, TwitterProfile, config.converter,
@@ -88,6 +102,8 @@ def train_twitter(classifier):
 
 
 def train_facebook(classifier):
+    """Helper method to train an initialized scikit-learn classifier on
+    all Facebook profiles."""
     all_entries = get_facebook_entries()
 
     facebook_trainer = Trainer(all_entries, FacebookProfile, config.converter,
@@ -101,6 +117,8 @@ def train_facebook(classifier):
 
 
 def get_twitter_entries():
+    """Connects to MongoDB and returns all Twitter profiles with their
+    labels."""
     client = mongo.client
     labels = client.labels.twitter
     profiles = client.searchresults.twitterProfiles
@@ -129,6 +147,8 @@ def get_twitter_entries():
 
 
 def get_facebook_entries():
+    """Connects to MongoDB and returns all Facebook profiles with their
+    labels."""
     client = mongo.client
     labels = client.labels.facebook
     profiles = client.searchresults.facebookProfiles
@@ -155,11 +175,19 @@ def get_facebook_entries():
 
 
 def get_labelled_entries(labels, profiles):
+    """Given the pymongo collections for some social network profiles and their
+    labels, returns a list of dictionaries containing:
+
+        `name`: the name of the company the profile is labelled relative to.
+
+        `profile`: the profile itself.
+
+        `label`: the label of this profile, relative to the company."""
     # We need to return entries in the form:
     # {
     #   'name': <query>,
     #   'profile': <profile>,
-    #   'label': <label
+    #   'label': <label>
     # }
 
     all_entries = []
