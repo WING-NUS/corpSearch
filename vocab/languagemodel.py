@@ -32,10 +32,12 @@ def bigram_counts(text):
 
 
 class BigramLanguageModel(object):
+    """Represents a bigram language model for some collection of text."""
     def __init__(self):
         self.counts = Counter()
 
     def add(self, text):
+        """Adds the given string to the language model."""
         grams = bigrams(text)
         self.counts.update(grams)
 
