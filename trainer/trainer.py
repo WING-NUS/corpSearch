@@ -34,17 +34,17 @@ class Trainer(object):
         feature_vectors = []
         labels = []
 
-        correct_names = [x['name'] for x in profiles if x['label'] == 2]
+        correct_names = [x['name'] for x in profiles if x['label'] == 'official']
         correct_profiles = [self.profile_type(x['profile'], x['posts'])
-                            for x in profiles if x['label'] == 2]
+                            for x in profiles if x['label'] == 'official']
 
-        affiliate_names = [x['name'] for x in profiles if x['label'] == 1]
+        affiliate_names = [x['name'] for x in profiles if x['label'] == 'affiliate']
         affiliate_profiles = [self.profile_type(x['profile'], x['posts'])
-                              for x in profiles if x['label'] == 1]
+                              for x in profiles if x['label'] == 'affiliate']
 
-        incorrect_names = [x['name'] for x in profiles if x['label'] == 0]
+        incorrect_names = [x['name'] for x in profiles if x['label'] == 'unrelated']
         incorrect_profiles = [self.profile_type(x['profile'], x['posts'])
-                              for x in profiles if x['label'] == 0]
+                              for x in profiles if x['label'] == 'unrelated']
 
         profiles = {
             'correct': correct_profiles,
