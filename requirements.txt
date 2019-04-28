@@ -21,7 +21,7 @@ py==1.4.26
 pymongo==2.8
 pyre===0.8.2.0-pathos
 pytest==2.6.4
-requests==2.4.3
+requests>=2.20.0
 requests-oauthlib==0.4.1
 scikit-learn==0.15.2
 scipy==0.15.0
