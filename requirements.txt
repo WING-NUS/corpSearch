@@ -4,7 +4,7 @@ certifi==2015.4.28
 colorama==0.3.3
 dill==0.2.2
 facebook-sdk==0.4.0
-Flask==0.10.1
+flask>=0.12.3
 gensim==0.10.3
 itsdangerous==0.24
 Jinja2>=2.10.1
